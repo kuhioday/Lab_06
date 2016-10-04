@@ -67,6 +67,7 @@ void StackLinked<T>::popAll()
 template < class T >
 T* StackLinked<T>::peek()
 {
+	if (sze == 0) return NULL;
 	return top->getItem();
 }
 

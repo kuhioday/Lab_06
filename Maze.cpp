@@ -50,7 +50,6 @@ Cell* Maze::processBackTrack(StackLinked<Cell>* stack)
 
    while (top_cell->getDir() == DEAD_END)  //need to back track
    {
-		cout<<"Foo2"<<endl;
 		stack->pop();
 		maze->setElement(top_cell->getRow(), top_cell->getCol(), BACKTRACK);//remove the cell and set the maze location to BACKTRACK (the maze is a Matrix)
 		top_cell = stack->peek();//look at the next cell
@@ -68,18 +67,14 @@ bool Maze::isSolved(Cell* curr_cell, StackLinked<Cell>* stack)
    //get row and col from curr_cell
 	int row = curr_cell->getRow();
 	int col = curr_cell->getCol();
-   //have you solved the maze? (check that we are at the bottom right maze location and that it is a SPACE
+   //have you solved the maze? (check that we are at the bottom right maze location and that it is a SPACE)
+   
+   //I didn't do that, because it's handled by traverse. This was actually screwing me up pretty bad.
    if (row == maze->getNumRows() && col == maze->getNumCols())  
    {
-      maze->setElement(row,col,TRIED);//set the maze location to TRIED
-	  
-      stack->push(curr_cell);//push curr_cell
-
-      gui->update();
       return true;//return the appropriate boolean
 		
    }
-
    return false;//return the appropriate boolean
    
 }
@@ -89,7 +84,7 @@ void Maze::processSolution(StackLinked<Cell>* stack)
 {
    //DO THIS
    //the stack has the solution path stored
-   while(stack->size() != 0)
+   while(!stack->isEmpty())
    {
       
 	  Cell* cell = stack->pop();//get the next cell from the stack
@@ -136,7 +131,6 @@ bool Maze::traverse()
       //check that the current maze location corresponds to SPACE, otherwise delete it
       if (maze->getElement(row,col) == SPACE)
       {
-		 cout<<"Foo"<<endl;
          maze->setElement(row,col,TRIED);//update the maze location to TRIED
          stack.push(curr_cell);//put the cell on the stack (move forward through the maze)
 		 
@@ -150,7 +144,7 @@ bool Maze::traverse()
 		 
       }
    }
-
+	cout<<"Foo"<<endl;
    //did we make it to the bottom right?
    if (done)
    {
